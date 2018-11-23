@@ -53,11 +53,12 @@ class TimeMachine extends React.Component {
             : 'Go to game start'
         ) + ', [' + coords[0] + '/' + coords[1] + ']';
 
-        console.log(this.props.stepNumber, move);
-        const fontBold = this.props.stepNumber === move ? 'bold' : 'normal';
+        const styles = {
+            fontWeight: this.props.stepNumber === move ? 'bold' : 'normal'
+        };
 
         return <li key={move}>
-                <button style={{'fontWeight': fontBold}} onClick={() => this.props.onClick(move)}>{description}</button>
+                <button style={styles} onClick={() => this.props.onClick(move)}>{description}</button>
             </li>;
     }
 
