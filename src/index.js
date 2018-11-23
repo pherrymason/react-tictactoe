@@ -16,30 +16,26 @@ function Square(props) {
 class Board extends React.Component {
     renderSquare(i) {
         return <Square
+            key={'cell-' + i}
             value={this.props.squares[i]}
             onClick={() => this.props.onClick(i)}
         />;
     }
 
     render() {
+        const rowLength = 3;
+        const cellLength = 3;
+        let rows = [];
+        for (let r = 0; r < rowLength; r++) {
+            let cells = [];
+            for (let c = 0; c < cellLength; c++) {
+                cells.push(this.renderSquare((r + c) + (r * (cellLength - 1))));
+            }
+            rows.push(<div key={'row-' + r} className="board-row">{cells}</div>);
+        }
+
         return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
+            <div>{rows}</div>
         );
     }
 }
@@ -49,8 +45,8 @@ class TimeMachine extends React.Component {
         const coords = step.coordinates;
         const description = (
             move
-            ? 'Go to move #' + move
-            : 'Go to game start'
+                ? 'Go to move #' + move
+                : 'Go to game start'
         ) + ', [' + coords[0] + '/' + coords[1] + ']';
 
         const styles = {
@@ -58,8 +54,8 @@ class TimeMachine extends React.Component {
         };
 
         return <li key={move}>
-                <button style={styles} onClick={() => this.props.onClick(move)}>{description}</button>
-            </li>;
+            <button style={styles} onClick={() => this.props.onClick(move)}>{description}</button>
+        </li>;
     }
 
     render() {
@@ -80,7 +76,7 @@ class Game extends React.Component {
         this.state = {
             history: [{
                 squares: Array(9).fill(null),
-                coordinates: [null,null]
+                coordinates: [null, null]
             }],
             stepNumber: 0,
             xIsNext: true,
@@ -96,12 +92,12 @@ class Game extends React.Component {
         }
 
         squares[i] = this.state.xIsNext ? 'X' : 'O';
-        const y = Math.floor(i/3);
-        const x = (i%3);
+        const y = Math.floor(i / 3);
+        const x = (i % 3);
         this.setState({
             history: history.concat([{
                 squares: squares,
-                coordinates: [ y, x ],
+                coordinates: [y, x],
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -147,7 +143,7 @@ class Game extends React.Component {
 // ========================================
 
 ReactDOM.render(
-    <Game />,
+    <Game/>,
     document.getElementById('root')
 );
 
