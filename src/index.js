@@ -53,8 +53,12 @@ class TimeMachine extends React.Component {
             : 'Go to game start'
         ) + ', [' + coords[0] + '/' + coords[1] + ']';
 
+        const styles = {
+            fontWeight: this.props.stepNumber === move ? 'bold' : 'normal'
+        };
+
         return <li key={move}>
-                <button onClick={() => this.props.onClick(move)}>{description}</button>
+                <button style={styles} onClick={() => this.props.onClick(move)}>{description}</button>
             </li>;
     }
 
@@ -133,7 +137,7 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
-                    <TimeMachine history={history} onClick={(i) => this.jumpTo(i)}/>
+                    <TimeMachine history={history} stepNumber={this.state.stepNumber} onClick={(i) => this.jumpTo(i)}/>
                 </div>
             </div>
         );
