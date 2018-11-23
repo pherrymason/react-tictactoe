@@ -41,6 +41,20 @@ class Board extends React.Component {
 }
 
 class TimeMachine extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sort: 'asc'
+        };
+    }
+
+    onClickSort(event) {
+        console.log('click!');
+        this.setState({
+            sort: this.state.sort === 'asc' ? 'desc' : 'asc'
+        });
+    }
+
     renderSnapshot(move, step) {
         const coords = step.coordinates;
         const description = (
@@ -63,8 +77,21 @@ class TimeMachine extends React.Component {
             return this.renderSnapshot(move, step);
         });
 
+        const reversed = this.state.sort === 'desc';
+        let olAttributes = {};
+        if (reversed) {
+            moves.reverse();
+            olAttributes = {
+                reversed: 'reversed'
+            };
+        }
+        const sortDescription = this.state.sort === 'asc' ? 'desc' : 'asc';
+
         return (
-            <ol>{moves}</ol>
+            <div>
+                <button onClick={() => this.onClickSort()}>{sortDescription}</button>
+                <ol {...olAttributes}>{moves}</ol>
+            </div>
         )
     }
 }
